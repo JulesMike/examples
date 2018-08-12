@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  goapp:
+    build: .
+    command: [sh, -c, "make && ./build/godocker"]
+    volumes:
+      - .:/go/src/github.com/julesmike/toys/godocker
+    ports:
+      - "6002:8888"
+
+  vueapp:
+    build: web/app
+    command: [sh, -c, "npm install -v && npm run build-watch"]
+    volumes:
+      - ./web/app:/home/node/app
+    ports:
+      - "6001:8080"
