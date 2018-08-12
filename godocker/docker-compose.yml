@@ -1,20 +1,35 @@
-version: '3'
+version: '2'
 
 services:
+  revproxy:
+    image: jwilder/nginx-proxy
+    container_name: revproxy
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    ports:
+      - 80:80
+
   goapp:
     build: .
     command: [sh, -c, "make && ./build/godocker"]
+    environment:
+      - VIRTUAL_HOST=lsl.local
     volumes:
       - .:/go/src/github.com/julesmike/toys/godocker
     ports:
-      - "6001:8888"
+      - 6001:8888
     depends_on:
-      - "vueapp"
+      - vueapp
+      - revproxy
 
   vueapp:
     build: web/app
     command: [sh, -c, "npm install -v && npm run build-watch"]
+    environment:
+      - VIRTUAL_HOST=lsl.local
     volumes:
       - ./web/app:/home/node/app
     ports:
-      - "6002:8080"
+      - 6002:8080
+    depends_on:
+      - revproxy
