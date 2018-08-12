@@ -16,8 +16,8 @@ services:
       - VIRTUAL_HOST=lsl.local
     volumes:
       - .:/go/src/github.com/julesmike/toys/godocker
-    ports:
-      - 6001:8888
+    expose:
+      - 8888
     depends_on:
       - vueapp
       - revproxy
@@ -29,7 +29,7 @@ services:
       - VIRTUAL_HOST=lsl.local
     volumes:
       - ./web/app:/home/node/app
-    ports:
-      - 6002:8080
+    expose:
+      - 8080
     depends_on:
       - revproxy
