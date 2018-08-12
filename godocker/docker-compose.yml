@@ -7,7 +7,9 @@ services:
     volumes:
       - .:/go/src/github.com/julesmike/toys/godocker
     ports:
-      - "6002:8888"
+      - "6001:8888"
+    depends_on:
+      - "vueapp"
 
   vueapp:
     build: web/app
@@ -15,4 +17,4 @@ services:
     volumes:
       - ./web/app:/home/node/app
     ports:
-      - "6001:8080"
+      - "6002:8080"
