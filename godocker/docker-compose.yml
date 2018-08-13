@@ -3,7 +3,6 @@ version: '2'
 services:
   revproxy:
     image: jwilder/nginx-proxy
-    container_name: revproxy
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
     ports:
